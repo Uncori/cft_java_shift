@@ -7,8 +7,8 @@ import java.util.ArrayList;
 public class ParserArguments {
     ArrayList<String> fileList = new ArrayList<>();
     private boolean defaultPath = true;
-    private String path;
-    private String prefix;
+    private String path = "";
+    private String prefix = "";
     private boolean flag_o = false;
     private boolean flag_p = false;
     private boolean flag_a = false;
@@ -109,6 +109,12 @@ public class ParserArguments {
                     this.setDefaultPath(false);
                     try {
                         String tmp = args[++i];
+                        String osName = System.getProperty("os.name");
+                        System.out.println(osName);
+                        if(System.getProperty("os.name").equals("Linux") && !tmp.endsWith("/"))
+                            tmp = tmp + "/";
+                        if(System.getProperty("os.name").equals("Windows") && !tmp.endsWith("\\"))
+                            tmp = tmp + "\\";
                         if(!tmp.startsWith("-"))
                             this.setPath(tmp);
                         else
@@ -144,5 +150,7 @@ public class ParserArguments {
                     break;
             }
         }
+        if(this.fileList.size() == 0)
+            throw new InvalidInputException("Files to read are not specified\n");
     }
 }
