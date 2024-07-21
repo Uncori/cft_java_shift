@@ -91,31 +91,27 @@ public class ParserArguments {
     public void parseArgs(String[] args) throws InvalidInputException {
         for(int i = 0; i < args.length; ++i) {
             switch (args[i]) {
-                case "-a":
+                case "-a" -> {
                     System.out.println("Find -a");
                     this.setFlag_a(true);
-                    break;
-                case "-s":
+                }
+                case "-s" -> {
                     System.out.println("Find -s");
                     this.setFlag_s(true);
-                    break;
-                case "-f":
+                }
+                case "-f" -> {
                     System.out.println("Find -f");
                     this.setFlag_f(true);
-                    break;
-                case "-o":
+                }
+                case "-o" -> {
                     System.out.println("Find -o");
                     this.setFlag_o(true);
                     this.setDefaultPath(false);
                     try {
                         String tmp = args[++i];
-                        String osName = System.getProperty("os.name");
-                        System.out.println(osName);
-                        if(System.getProperty("os.name").equals("Linux") && !tmp.endsWith("/"))
+                        if (!tmp.endsWith("/"))
                             tmp = tmp + "/";
-                        if(System.getProperty("os.name").equals("Windows") && !tmp.endsWith("\\"))
-                            tmp = tmp + "\\";
-                        if(!tmp.startsWith("-"))
+                        if (!tmp.startsWith("-"))
                             this.setPath(tmp);
                         else
                             throw new InvalidInputException("Parameter -o can not be empty!");
@@ -124,13 +120,13 @@ public class ParserArguments {
                         throw new InvalidInputException("After setting the -o parameter, its value is required\n"
                                 + e.getMessage());
                     }
-                    break;
-                case "-p":
+                }
+                case "-p" -> {
                     System.out.println("Find -p");
                     this.setFlag_p(true);
                     try {
                         String tmp = args[++i];
-                        if(!tmp.startsWith("-"))
+                        if (!tmp.startsWith("-"))
                             this.setPrefix(tmp);
                         else
                             throw new InvalidInputException("Parameter -p can not be empty!");
@@ -139,15 +135,15 @@ public class ParserArguments {
                         throw new InvalidInputException("After setting the -o parameter, its value is required\n"
                                 + e.getMessage());
                     }
-                    break;
-                default:
-                    if(args[i].endsWith(".txt"))
+                }
+                default -> {
+                    if (args[i].endsWith(".txt"))
                         this.fileList.add(args[i]);
-                    for(Object feather : fileList) {
+                    for (Object feather : fileList) {
                         System.out.println(feather);
                     }
-                        System.out.println(fileList.size());
-                    break;
+                    System.out.println(fileList.size());
+                }
             }
         }
         if(this.fileList.size() == 0)

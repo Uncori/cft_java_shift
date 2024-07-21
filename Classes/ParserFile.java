@@ -10,7 +10,7 @@ public class ParserFile {
     private ArrayList<Integer> integersArray = new ArrayList<>();
     private ArrayList<Float> floatsArray = new ArrayList<>();
 
-    public void parseFile(ParserArguments parser) throws IOException, InvalidInputException {
+    public void parseFile(ParserArguments parser) throws InvalidInputException {
         File[] outFiles = new File[3];
         outFiles[0] = new File((parser.getPath() + parser.getPrefix() + "integers.txt").trim());
         outFiles[1] = new File((parser.getPath() + parser.getPrefix() + "floats.txt").trim());
@@ -20,12 +20,14 @@ public class ParserFile {
             System.out.println("outFiles: " + feather);
         }
 
-        checkFile(parser.getFileList());
-
+        checkFileExists(parser.getFileList());
+        readLineFile(parser.getFileList());
+    }
+    private void readLineFile(ArrayList<String> fileNames) {
         List<BufferedReader> readers = new ArrayList<>();
 
         try {
-            for (String filePath : parser.getFileList()) {
+            for (String filePath : fileNames) {
                 readers.add(new BufferedReader(new FileReader(filePath)));
             }
 
@@ -41,24 +43,21 @@ public class ParserFile {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
-            // Закрываем все BufferedReader
             for (BufferedReader reader : readers) {
                 try {
                     if (reader != null) {
                         reader.close();
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println(e.getMessage());
                 }
             }
         }
-
-        ArrayList<String> tmp = parser.getFileList();
     }
 
-    private void checkFile(ArrayList<String> fileNames) throws InvalidInputException {
+    private void checkFileExists(ArrayList<String> fileNames) throws InvalidInputException {
         for(String tmp: fileNames) {
             File file = new File(tmp);
             if (!file.exists())
