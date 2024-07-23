@@ -2,151 +2,146 @@ package Classes;
 
 import MyException.*;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ParserArguments {
-    ArrayList<String> fileList = new ArrayList<>();
-    private boolean defaultPath = true;
+    private final ArrayList<String> inputFileList = new ArrayList<>();
+    private String outputIntFile = "";
+    private String outputFloatFile = "";
+    private String outputStringFile = "";
     private String path = "";
     private String prefix = "";
-    private boolean flag_o = false;
-    private boolean flag_p = false;
     private boolean flag_a = false;
     private boolean flag_s = false;
     private boolean flag_f = false;
 
-    public ArrayList<String> getFileList() {
-        return fileList;
-    }
-
-    public void setFileList(ArrayList<String> fileList) {
-        this.fileList = fileList;
-    }
-
-    public boolean isDefaultPath() {
-        return defaultPath;
-    }
-
-    public void setDefaultPath(boolean default_path) {
-        this.defaultPath = default_path;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
-
-    public boolean isFlag_o() {
-        return flag_o;
-    }
-
-    public void setFlag_o(boolean flag_o) {
-        this.flag_o = flag_o;
-    }
-
-    public boolean isFlag_p() {
-        return flag_p;
-    }
-
-    public void setFlag_p(boolean flag_p) {
-        this.flag_p = flag_p;
-    }
-
     public boolean isFlag_a() {
         return flag_a;
-    }
-
-    public void setFlag_a(boolean flag_a) {
-        this.flag_a = flag_a;
     }
 
     public boolean isFlag_s() {
         return flag_s;
     }
 
-    public void setFlag_s(boolean flag_s) {
-        this.flag_s = flag_s;
-    }
-
     public boolean isFlag_f() {
         return flag_f;
     }
 
-    public void setFlag_f(boolean flag_f) {
-        this.flag_f = flag_f;
+    public ArrayList<String> getInputFileList() {
+        return inputFileList;
     }
 
-    public void parseArgs(String[] args) throws InvalidInputException {
-        for(int i = 0; i < args.length; ++i) {
-            switch (args[i]) {
-                case "-a" -> {
-                    System.out.println("Find -a");
-                    this.setFlag_a(true);
-                }
-                case "-s" -> {
-                    System.out.println("Find -s");
-                    this.setFlag_s(true);
-                }
-                case "-f" -> {
-                    System.out.println("Find -f");
-                    this.setFlag_f(true);
-                }
-                case "-o" -> {
-                    System.out.println("Find -o");
-                    this.setFlag_o(true);
-                    this.setDefaultPath(false);
-                    try {
-                        String tmp = args[++i];
-                        if (!tmp.endsWith("/"))
-                            tmp = tmp + "/";
-                        if (!tmp.startsWith("-"))
-                            this.setPath(tmp);
+    public String getPath() {
+        return path;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public String getOutputIntFile() {
+        return outputIntFile;
+    }
+
+    public String getOutputFloatFile() {
+        return outputFloatFile;
+    }
+
+    public String getOutputStringFile() {
+        return outputStringFile;
+    }
+
+
+    public void parseArgs(String[] args) throws InvalidInputException, IOException {
+        if (args.length != 0) {
+            System.out.println(args.length);
+            for (int i = 0; i < args.length; ++i) {
+                switch (args[i]) {
+                    case "-a":
+                        if (!this.flag_a)
+                            this.flag_a = true;
                         else
-                            throw new InvalidInputException("Parameter -o can not be empty!");
-                        System.out.printf("path  =  %s\n", this.getPath());
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        throw new InvalidInputException("After setting the -o parameter, its value is required\n"
-                                + e.getMessage());
-                    }
-                }
-                case "-p" -> {
-                    System.out.println("Find -p");
-                    this.setFlag_p(true);
-                    try {
-                        String tmp = args[++i];
-                        if (!tmp.startsWith("-"))
-                            this.setPrefix(tmp);
+                            throw new InvalidInputException("More than one parameter \"-a\"");
+                        System.out.println("Find -a");
+                        break;
+                    case "-s":
+                        if (!isFlag_s())
+                            this.flag_s = true;
                         else
-                            throw new InvalidInputException("Parameter -p can not be empty!");
-                        System.out.printf("prefix  =  %s\n", this.getPrefix());
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        throw new InvalidInputException("After setting the -o parameter, its value is required\n"
-                                + e.getMessage());
-                    }
-                }
-                default -> {
-                    if (args[i].endsWith(".txt"))
-                        this.fileList.add(args[i]);
-                    for (Object feather : fileList) {
-                        System.out.println(feather);
-                    }
-                    System.out.println(fileList.size());
+                            throw new InvalidInputException("More than one parameter \"-s\"");
+                        System.out.println("Find -s");
+                        break;
+                    case "-f":
+                        if (!isFlag_f())
+                            this.flag_f = true;
+                        else
+                            throw new InvalidInputException("More than one parameter \"-f\"");
+                        System.out.println("Find -f");
+                        break;
+                    case "-o":
+                        System.out.println("Find -o");
+                        try {
+                            String tmp = args[++i];
+                            if (!tmp.endsWith("/"))
+                                tmp = tmp + "/";
+                            if (!tmp.startsWith("-"))
+                                this.path = tmp;
+                            else
+                                throw new InvalidInputException("Parameter -o can not be empty!");
+                            System.out.printf("path  =  %s\n", this.getPath());
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            throw new InvalidInputException("After setting the -o parameter, its value is required\n"
+                                    + e.getMessage());
+                        }
+                        break;
+                    case "-p":
+                        System.out.println("Find -p");
+                        try {
+                            String tmp = args[++i];
+                            if (!tmp.startsWith("-"))
+                                this.prefix = tmp;
+                            else
+                                throw new InvalidInputException("Parameter -p can not be empty!");
+                            System.out.printf("prefix  =  %s\n", this.getPrefix());
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            throw new InvalidInputException("After setting the -o parameter, its value is required\n"
+                                    + e.getMessage());
+                        }
+                        break;
+                    default:
+                        if (args[i].endsWith(".txt"))
+                            this.inputFileList.add(args[i]);
+                        else
+                            throw new InvalidInputException("Unknown argument: " + args[i] + "\n");
+                        break;
                 }
             }
+            if (this.inputFileList.size() == 0)
+                throw new InvalidInputException("Files to read are not specified\n");
+            System.out.println(" fileList size = " + this.getInputFileList().size());
+            if (isFlag_s() && isFlag_f())
+                throw new InvalidInputException("two parameters were introduced for statistics (-s and -f)\n");
+
+            this.outputIntFile = (this.getPath() + this.getPrefix() + "integers.txt");
+            this.outputFloatFile = (this.getPath() + this.getPrefix() + "floats.txt");
+            this.outputStringFile = (this.getPath() + this.getPrefix() + "strings.txt");
+
+            for (String filename : this.getInputFileList())
+                System.out.println("fileName = " + filename);
+        } else {
+            throw new NullPointerException("\nEmpty parameters.\n" +
+                    "About program:\n" +
+                    "\tfilename.txt - file name to read\n" +
+                    "\tflag \"-o\" - set path output file\n" +
+                    "\tflag \"-p\" - set the prefix of the output file\n" +
+                    "\tflag \"-a\" - add to the output file (without overwriting)\n" +
+                    "\tflag \"-s\" - brief statistics\n" +
+                    "\tflag \"-f\" - full statistics\n" +
+                    "Example:\n" +
+                    "\t-s -a -p prefix- example1.txt example2.txt");
         }
-        if(this.fileList.size() == 0)
-            throw new InvalidInputException("Files to read are not specified\n");
+
     }
 }

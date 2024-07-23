@@ -6,23 +6,42 @@ import java.io.*;
 import java.util.*;
 
 public class ParserFile {
-    private ArrayList<String> linesArray = new ArrayList<>();
-    private ArrayList<Integer> integersArray = new ArrayList<>();
-    private ArrayList<Float> floatsArray = new ArrayList<>();
+    private final ArrayList<String> linesArray = new ArrayList<>();
+    private final ArrayList<Integer> integersArray = new ArrayList<>();
+    private final ArrayList<Float> floatsArray = new ArrayList<>();
 
-    public void parseFile(ParserArguments parser) throws InvalidInputException {
-        File[] outFiles = new File[3];
-        outFiles[0] = new File((parser.getPath() + parser.getPrefix() + "integers.txt").trim());
-        outFiles[1] = new File((parser.getPath() + parser.getPrefix() + "floats.txt").trim());
-        outFiles[2] = new File((parser.getPath() + parser.getPrefix() + "strings.txt").trim());
-
-        for(File feather : outFiles) {
-            System.out.println("outFiles: " + feather);
-        }
-
-        checkFileExists(parser.getFileList());
-        readLineFile(parser.getFileList());
+    public ArrayList<String> getLinesArray() {
+        return linesArray;
     }
+
+    public ArrayList<Integer> getIntegersArray() {
+        return integersArray;
+    }
+
+    public ArrayList<Float> getFloatsArray() {
+        return floatsArray;
+    }
+
+
+    public void parseFile(ParserArguments parser) throws Exception {
+
+        checkFileExists(parser.getInputFileList());
+        readLineFile(parser.getInputFileList());
+
+        System.out.println("LINEARRAY");
+        for (String str : linesArray) {
+            System.out.println(str);
+        }
+        System.out.println("INTEGERSARRAY");
+        for (Integer str : integersArray) {
+            System.out.println(str);
+        }
+        System.out.println("FLOATARRAY");
+        for (Float str : floatsArray) {
+            System.out.println(str);
+        }
+    }
+
     private void readLineFile(ArrayList<String> fileNames) {
         List<BufferedReader> readers = new ArrayList<>();
 
@@ -32,6 +51,7 @@ public class ParserFile {
             }
 
             boolean done = false;
+            int i = 0;
             while (!done) {
                 done = true;
                 for (BufferedReader reader : readers) {
@@ -39,8 +59,12 @@ public class ParserFile {
                     if (line != null) {
                         done = false;
                         System.out.println("stroka = " + line);
+                        lineValidator(line);
+                        ++i;
+                        System.out.println("filename = " + fileNames.get(i - 1));
                     }
                 }
+                i = 0;
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -57,8 +81,39 @@ public class ParserFile {
         }
     }
 
-    private void checkFileExists(ArrayList<String> fileNames) throws InvalidInputException {
-        for(String tmp: fileNames) {
+    private void lineValidator(String line) {
+        if (isInteger(line)) {
+            System.out.println("INT " + line);
+            this.integersArray.add(Integer.parseInt(line));
+        } else if (isFloat(line)) {
+            System.out.println("FLOAT " + line);
+            this.floatsArray.add(Float.parseFloat(line));
+        } else {
+            System.out.println("STRING " + line);
+            this.linesArray.add(line);
+        }
+    }
+
+    private static boolean isInteger(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private static boolean isFloat(String str) {
+        try {
+            Float.parseFloat(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public void checkFileExists(ArrayList<String> fileNames) throws InvalidInputException {
+        for (String tmp : fileNames) {
             File file = new File(tmp);
             if (!file.exists())
                 throw new InvalidInputException("File " + tmp + " is not exists");
