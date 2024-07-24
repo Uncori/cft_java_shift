@@ -113,7 +113,7 @@ public class ParserArguments {
             this.outputStringFile = (this.getPath() + this.getPrefix() + "strings.txt");
 
         } else {
-            throw new NullPointerException("\nПрограмма запущена без параметров\n"
+            throw new InvalidInputException("\nПрограмма запущена без параметров\n"
                     + "О программе:\n"
                     + "\tfilename.txt - путь к файлу для считывания\n"
                     + "\tflag \"-o\" - установка пути к выходному файлу\n"
@@ -122,7 +122,7 @@ public class ParserArguments {
                     + "\tflag \"-s\" - краткая статистика\n"
                     + "\tflag \"-f\" - полная статистика\n"
                     + "Пример:\n"
-                    + "\t-s -a -p prefix- example1.txt example2.txt");
+                    + "\tjava -jar имя_программы -s -a -p prefix- example1.txt example2.txt");
         }
 
     }
