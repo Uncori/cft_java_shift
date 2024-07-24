@@ -1,7 +1,6 @@
 import Classes.*;
 
-public class TestCftParser {
-
+public class FileFiltering {
     public static void main(String[] args) throws Exception {
 
         ParserArguments parserArgs = new ParserArguments();
@@ -13,5 +12,4 @@ public class TestCftParser {
         write.writeOutFile(parserArgs, parserFile);
         Statistics.getStatistics(parserArgs, parserFile);
     }
-
 }

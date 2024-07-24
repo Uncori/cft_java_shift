@@ -9,30 +9,21 @@ import java.util.ArrayList;
 public class WriteOutFile {
     public void writeOutFile(ParserArguments parserArguments, ParserFile parserFile) throws IOException {
         if (parserFile.getIntegersArray().size() != 0) {
-            writeToFile(parserArguments.getOutputIntFile(),
-                    parserArguments.isFlag_a(),
-                    parserFile.getIntegersArray());
+            writeToFile(parserArguments.getOutputIntFile(), parserArguments.isFlag_a(), parserFile.getIntegersArray());
         }
         if (parserFile.getFloatsArray().size() != 0) {
-            writeToFile(parserArguments.getOutputFloatFile(),
-                    parserArguments.isFlag_a(),
-                    parserFile.getFloatsArray());
-
+            writeToFile(parserArguments.getOutputFloatFile(), parserArguments.isFlag_a(), parserFile.getFloatsArray());
         }
         if (parserFile.getLinesArray().size() != 0) {
-            writeToFile(parserArguments.getOutputStringFile(),
-                    parserArguments.isFlag_a(),
-                    parserFile.getLinesArray());
+            writeToFile(parserArguments.getOutputStringFile(), parserArguments.isFlag_a(), parserFile.getLinesArray());
         }
     }
 
     private void createFile(File file) throws IOException {
         try {
-            if (file.createNewFile()) {
-                System.out.println("Файл уже создан");
-            }
+            file.createNewFile();
         } catch (IOException e) {
-            throw new IOException("Ошибка при создании файла для записи " + file.getPath());
+            throw new IOException("Ошибка при создании файла " + file.getPath() + ", нет такого каталога (папки)");
         }
     }
 

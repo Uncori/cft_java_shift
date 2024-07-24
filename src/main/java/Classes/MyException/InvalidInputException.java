@@ -1,4 +1,4 @@
-package MyException;
+package Classes.MyException;
 
 public class InvalidInputException extends Exception {
     public InvalidInputException(String message) {
