@@ -17,15 +17,15 @@ public class Statistics {
 
             if (parserArguments.isFlag_f()) {
                 /* integer */
-                integerStatic(parserArguments.getOutputIntFile(), parserFile.getIntegersArray());
+                integerStatistics(parserArguments.getOutputIntFile(), parserFile.getIntegersArray());
                 /* float */
-                floatStatic(parserArguments.getOutputFloatFile(), parserFile.getFloatsArray());
+                floatStatistics(parserArguments.getOutputFloatFile(), parserFile.getFloatsArray());
                 /* string */
-                stringStatic(parserArguments.getOutputStringFile(), parserFile.getLinesArray());
+                stringStatistics(parserArguments.getOutputStringFile(), parserFile.getLinesArray());
             }
         }
     }
-    private static void integerStatic(String fileName, ArrayList<Integer> arrayList) {
+    private static void integerStatistics(String fileName, ArrayList<Integer> arrayList) {
         System.out.println("Статистика по записи в файл " + fileName);
         if (arrayList.size() >= 2) {
             Collections.sort(arrayList);
@@ -40,7 +40,7 @@ public class Statistics {
             System.out.println("\tВ файл ничего записано не было");
         }
     }
-    private static void floatStatic(String fileName, ArrayList<Float> arrayList) {
+    private static void floatStatistics(String fileName, ArrayList<Float> arrayList) {
         System.out.println("Статистика по записи в файл " + fileName);
         if (arrayList.size() >= 2) {
             Collections.sort(arrayList);
@@ -55,12 +55,14 @@ public class Statistics {
             System.out.println("\tВ файл ничего записано не было");
         }
     }
-    private static void stringStatic(String fileName, ArrayList<String> arrayList) {
+    private static void stringStatistics(String fileName, ArrayList<String> arrayList) {
         System.out.println("Статистика по записи в файл " + fileName);
         if (arrayList.size() >= 2) {
             arrayList.sort(Comparator.comparingInt(String::length));
-            System.out.println("\tСамая короткая строка: " + arrayList.get(0));
-            System.out.println("\tСамая длинная строка: " + arrayList.get(arrayList.size() - 1));
+            System.out.printf("\tСамая короткая строка с длинной %d : %s\n", arrayList.get(0).length(),
+                    arrayList.get(0));
+            System.out.printf("\tСамая длинная строка с длинной %d : %s\n", arrayList.get(arrayList.size() - 1).length(),
+                    arrayList.get(arrayList.size() - 1));
         } else if (arrayList.size() == 1) {
             System.out.println("\tЗаписана всего 1 строка со значением: " + arrayList);
         } else {
