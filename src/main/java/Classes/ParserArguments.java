@@ -106,7 +106,7 @@ public class ParserArguments {
             if (this.inputFileList.size() == 0) throw new InvalidInputException("Укажите файлы для считывания\n");
 
             if (isFlag_s() && isFlag_f())
-                throw new InvalidInputException("two parameters were introduced for statistics (-s and -f)\n");
+                throw new InvalidInputException("Указано два выбора вывода статистики (-s и -f)\n");
 
             this.outputIntFile = (this.getPath() + this.getPrefix() + "integers.txt");
             this.outputFloatFile = (this.getPath() + this.getPrefix() + "floats.txt");
