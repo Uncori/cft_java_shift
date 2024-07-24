@@ -7,22 +7,22 @@ import java.util.*;
 
 public class ParserFile {
 
-    private final ArrayList<String> linesArray = new ArrayList<>();
+    private final ArrayList<String> LinesArray = new ArrayList<>();
 
-    private final ArrayList<Integer> integersArray = new ArrayList<>();
+    private final ArrayList<Integer> IntegersArray = new ArrayList<>();
 
-    private final ArrayList<Float> floatsArray = new ArrayList<>();
+    private final ArrayList<Float> FloatsArray = new ArrayList<>();
 
     public ArrayList<String> getLinesArray() {
-        return linesArray;
+        return LinesArray;
     }
 
     public ArrayList<Integer> getIntegersArray() {
-        return integersArray;
+        return IntegersArray;
     }
 
     public ArrayList<Float> getFloatsArray() {
-        return floatsArray;
+        return FloatsArray;
     }
 
     public void parseFile(ParserArguments parser) throws Exception {
@@ -43,27 +43,15 @@ public class ParserFile {
 
             boolean done = false;
 
-            int i = 0;
-
             while (!done) {
-
                 done = true;
-
                 for (BufferedReader reader : readers) {
-
                     String line = reader.readLine();
-
                     if (line != null) {
-
                         done = false;
-
                         lineValidator(line);
-
-                        ++i;
                     }
                 }
-
-                i = 0;
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -83,11 +71,11 @@ public class ParserFile {
     private void lineValidator(String line) {
 
         if (isInteger(line)) {
-            this.integersArray.add(Integer.parseInt(line));
+            this.IntegersArray.add(Integer.parseInt(line));
         } else if (isFloat(line)) {
-            this.floatsArray.add(Float.parseFloat(line));
+            this.FloatsArray.add(Float.parseFloat(line));
         } else {
-            this.linesArray.add(line);
+            this.LinesArray.add(line);
         }
 
     }

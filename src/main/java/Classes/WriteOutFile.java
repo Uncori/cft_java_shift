@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class WriteOutFile {
-    public void writeOutFile(ParserArguments parserArguments, ParserFile parserFile) throws IOException {
+    public static void writeOutFile(ParserArguments parserArguments, ParserFile parserFile) throws IOException {
         if (parserFile.getIntegersArray().size() != 0) {
             writeToFile(parserArguments.getOutputIntFile(), parserArguments.isFlag_a(), parserFile.getIntegersArray());
         }
@@ -19,7 +19,7 @@ public class WriteOutFile {
         }
     }
 
-    private void createFile(File file) throws IOException {
+    private static void createFile(File file) throws IOException {
         try {
             file.createNewFile();
         } catch (IOException e) {
@@ -27,7 +27,7 @@ public class WriteOutFile {
         }
     }
 
-    private <T> void writeToFile(String fileName, Boolean append, ArrayList<T> arrayList) throws IOException {
+    private static <T> void writeToFile(String fileName, Boolean append, ArrayList<T> arrayList) throws IOException {
         File file = new File(fileName);
         if (!file.exists()) {
             createFile(file);
