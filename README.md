@@ -17,7 +17,16 @@
 количество элементов записанных в исходящие файлы. Полная статистика для чисел
 дополнительно содержит минимальное и максимальное значения, сумма и среднее.
 Полная статистика для строк, помимо их количества, содержит также размер самой
-короткой строки и самой длинной.
+короткой строки и самой длинной.<br/>
+#### Система:
+* Apache Maven 3.6.3<br/>
+* Maven home: /usr/share/maven<br/>
+* Java version: 11.0.23, vendor: Ubuntu, runtime: /usr/lib/jvm/java-11-openjdk-amd64<br/>
+* Default locale: ru_RU, platform encoding: UTF-8<br/>
+* OS name: "linux", version: "6.5.0-41-generic", arch: "amd64", family: "unix"<br/>
+* openjdk 11.0.23 2024-04-16<br/>
+* OpenJDK Runtime Environment (build 11.0.23+9-post-Ubuntu-1ubuntu122.04.1)<br/>
+* OpenJDK 64-Bit Server VM (build 11.0.23+9-post-Ubuntu-1ubuntu122.04.1, mixed mode, sharing)<br/>
 ### Пример использования:
 > Пример входного файла in1.txt<br/>
 Lorem ipsum dolor sit amet<br/>
