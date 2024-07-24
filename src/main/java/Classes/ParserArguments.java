@@ -80,7 +80,7 @@ public class ParserArguments {
                         try {
                             String tmp = args[++i];
                             if (!tmp.endsWith("/")) tmp = tmp + "/";
-                            if (!tmp.startsWith("-")) this.path = tmp;
+                            if (!tmp.startsWith("-") || tmp.endsWith(".txt")) this.path = tmp;
                             else throw new InvalidInputException("Параметр -o не может быть пустым");
                         } catch (ArrayIndexOutOfBoundsException e) {
                             throw new InvalidInputException("После параметра -o нет указания пути\n" + e.getMessage());
@@ -89,10 +89,11 @@ public class ParserArguments {
                     case "-p":
                         try {
                             String tmp = args[++i];
-                            if (!tmp.startsWith("-")) this.prefix = tmp;
+                            if (!tmp.startsWith("-") || tmp.endsWith(".txt")) this.prefix = tmp;
                             else throw new InvalidInputException("Параметр -p не может быть пустым");
                         } catch (ArrayIndexOutOfBoundsException e) {
-                            throw new InvalidInputException("После параметра -p нет указания пути\n" + e.getMessage());
+                            throw new InvalidInputException("После параметра -p нет указания префикса\n"
+                                    + e.getMessage());
                         }
                         break;
                     default:
